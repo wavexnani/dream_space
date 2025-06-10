@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Signup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Urbanist', sans-serif;
+      background: linear-gradient(to right, #f2f2f2, #d3d3d3);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 350px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.6s ease;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input {
+      padding: 12px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .toggle a {
+      color: #1a1a1a;
+      font-weight: bold;
+      text-decoration: none;
+      margin-left: 5px;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        width: 90%;
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="auth-container">
+    <!-- Dynamic content will be injected -->
+  </div>
+
+  <script>
+    const container = document.getElementById('auth-container');
+
+    function renderForm(type) {
+      const isLogin = type === 'login';
+      container.innerHTML = `
+        <h2>${isLogin ? 'Login' : 'Sign Up'}</h2>
+        <div class="error" id="error-msg"></div>
+        <form id="${isLogin ? 'loginForm' : 'signupForm'}">
+          ${!isLogin ? '<input type="text" id="name" placeholder="Full Name" required />' : ''}
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <button type="submit">${isLogin ? 'Login' : 'Sign Up'}</button>
+        </form>
+        <div class="toggle">
+          ${isLogin ? "Don't have an account?" : "Already have an account?"}
+          <a href="#" onclick="renderForm('${isLogin ? 'signup' : 'login'}')">
+            ${isLogin ? 'Sign Up' : 'Login'}
+          </a>
+        </div>
+      `;
+
+      const form = document.getElementById(isLogin ? 'loginForm' : 'signupForm');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const name = !isLogin ? document.getElementById('name').value.trim() : null;
+        const errorMsg = document.getElementById('error-msg');
+
+        let users = JSON.parse(localStorage.getItem('users') || '{}');
+
+        if (isLogin) {
+          if (users[email] && users[email].password === password) {
+            errorMsg.textContent = '';
+            // Login success: Redirect
+            localStorage.setItem('loggedInUser', email);
+            window.location.href = 'home.html';
+          } else {
+            errorMsg.textContent = 'Invalid email or password';
+          }
+        } else {
+          if (users[email]) {
+            errorMsg.textContent = 'Email already exists';
+          } else {
+            users[email] = { name, password };
+            localStorage.setItem('users', JSON.stringify(users));
+            errorMsg.textContent = '';
+            alert('Signup successful! You can now login.');
+            renderForm('login');
+          }
+        }
+      });
+    }
+
+    renderForm('login'); // default view
+  </script>
+</body>
+</html>

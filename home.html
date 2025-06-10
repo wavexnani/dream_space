@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DreamSpace Real Estate</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      text-align: left;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    .modal-content p {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .close-btn {
+      background-color: crimson;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      float: right;
+    }
+  </style>
+</head>
+<body onload="homePageImages()">
+
+  <header class="navbar">
+    <h1>DreamSpace</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Listings</a>
+      <a href="#" id="about-link">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+  <button id="toggle-select-mode" onclick="toggleSelectMode()">Enter Select Mode</button>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Your Dream Home Awaits</h2>
+      <p>Find perfect properties tailored for your lifestyle.</p>
+      <button onclick="alert('Explore listings coming soon!')">Explore Listings</button>
+    </div>
+  </section>
+
+
+  <section class="featured">
+    <h2>Living Room Designs</h2>
+    <div class="properties" id="properties-container"></div>
+  </section>
+
+  <section class="room-types">
+    <h2>Select Room Type</h2>
+    <div class="dropdown-container">
+      <select id="room-selector" onchange="navigateToRoom(this.value)">
+        <option value="">-- Choose a Room --</option>
+        <option value="balcony">Balcony</option>
+        <option value="bathroom">Bathroom</option>
+        <option value="bedroom">Bedroom</option>
+        <option value="dining room">Dining Room</option>
+        <option value="guest room">Guest Room</option>
+        <option value="kids room">Kids Room</option>
+        <option value="kitchen">Kitchen</option>
+        <option value="living room">Living Room</option>
+        <option value="pooja room">Pooja Room</option>
+        <option value="study room">Study Room</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="cart-section" style="display: none;">
+    <h2>Selected Designs</h2>
+    <div id="cart-items" class="cart-items"></div>
+  </section>
+
+<div id="selected-cards-section" style="display: none; margin-top: 30px;">
+  <h2>Your Selected Designs</h2>
+  <div id="selected-cards" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+  <h3 id="total-price" style="margin: 20px 0; font-size: 1.2rem;"></h3>
+  <div style="text-align: right;">
+    <button onclick="clearAllSelections()" style="
+      background-color: #ff4444;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    ">Clear All</button>
+  </div>
+</div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Our Team</a></li>
+          <li><a href="#">Resources</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Find Us</h3>
+        <ul>
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Locations</a></li>
+          <li><a href="#">Newsletter</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Our Social</h3>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter (X)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 DreamSpace Realty. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- About Modal -->
+  <div class="modal" id="about-modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="hideModal()">Close</button>
+      <h2>User Details</h2>
+      <p><strong>Name:</strong> <span id="user-name"></span></p>
+      <p><strong>Email:</strong> <span id="user-email"></span></p>
+      <p><strong>Password:</strong> <span id="user-pass"></span></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const aboutLink = document.getElementById("about-link");
+    const modal = document.getElementById("about-modal");
+
+    aboutLink.addEventListener("click", () => {
+      const loggedInEmail = localStorage.getItem('loggedInUser');
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      const userData = users[loggedInEmail];
+
+      if (userData) {
+        document.getElementById("user-name").textContent = userData.name;
+        document.getElementById("user-email").textContent = loggedInEmail;
+        document.getElementById("user-pass").textContent = userData.password;
+        modal.style.display = "flex";
+      } else {
+        alert("User data not found.");
+      }
+    });
+
+    function hideModal() {
+      modal.style.display = "none";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Room View</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Urbanist', sans-serif;
+      background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
+      color: #1a1a1a;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 30px;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    .card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      transform: scale(1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .info {
+      padding: 18px 20px;
+      text-align: left;
+    }
+
+    .info h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    .info p {
+      font-size: 1.1rem;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .select-button {
+      margin: 10px 20px 20px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1a1a1a;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .select-button:hover {
+      background-color: #333;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .info h3 {
+        font-size: 1.1rem;
+      }
+      .info p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="room-title">Room</h1>
+  <div class="gallery" id="room-gallery"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const room = params.get('room');
+    const roomTitle = document.getElementById('room-title');
+    const gallery = document.getElementById('room-gallery');
+
+    if (room) {
+      roomTitle.textContent = room.replaceAll('_', ' ');
+    }
+
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        const filtered = Object.entries(data).filter(([path, info]) => {
+          return info[0].toLowerCase() === room;
+        });
+
+        if (filtered.length === 0) {
+          gallery.innerHTML = "<p style='text-align:center;'>No images found for this room.</p>";
+        } else {
+          const storedSelections = JSON.parse(localStorage.getItem('selectedCards')) || {};
+
+          filtered.forEach(([path, info], index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.animationDelay = `${index * 0.1}s`;
+
+            card.innerHTML = `
+              <img src="${path}" alt="${info[1]}" />
+              <div class="info">
+                <h3>${info[1]}</h3>
+                <p>${info[2]}</p>
+                <button class="select-button">Select</button>
+              </div>
+            `;
+
+            const selectButton = card.querySelector('.select-button');
+            selectButton.addEventListener('click', () => {
+              storedSelections[room] = {
+                image: path,
+                title: info[1],
+                price: info[2],
+                room
+              };
+              localStorage.setItem('selectedCards', JSON.stringify(storedSelections));
+              alert('Design selected! You can view it at the bottom of the homepage.');
+              window.location.href = 'home.html';
+            });
+
+            gallery.appendChild(card);
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error loading data.json:', error);
+        gallery.innerHTML = "<p style='text-align:center;'>Error loading data.</p>";
+      });
+  </script>
+</body>
+</html>
