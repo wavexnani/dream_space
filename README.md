@@ -10,14 +10,16 @@ This project empowers users to take control of their home design budget, providi
 
 Here are some screenshots showcasing the user interface and key functionalities of "Dream Space":
 
-![Dream Space - Login/Signup Page](./project_images/2024-05-24%20(1).png)
+![Dream Space - Login/Signup Page](./project_images/signup.png)
 *Figure 1: The user authentication interface, allowing new users to sign up and existing users to log in.*
 
-![Dream Space - Home Design Selection](./project_images/2024-05-24%20(2).png)
+![Dream Space - Home Design Selection](./project_images/landing.png)
 *Figure 2: The main home page where users can browse and select design options for different rooms.*
 
-![Dream Space - Budget Calculation Example](./project_images/2024-05-24%20(3).png)
+![Dream Space - Budget Calculation Example](./project_images/selected_Shown.png)
 *Figure 3: An example of how the application calculates and displays the total cost for selected designs, helping users manage their budget.*
+
+## For more images open project_images folder.
 
 ---
 
