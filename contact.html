@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - DreamSpace</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+    }
+
+    .team-section {
+      padding: 40px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .team-section h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.2rem;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 30px;
+      justify-items: center;
+    }
+
+    .team-member {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 200px;
+      height: 270px;
+      transition: height 0.3s ease, transform 0.3s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .team-member:hover {
+      height: 320px;
+      transform: translateY(-5px);
+    }
+
+    .team-member img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .team-member h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .github-btn {
+      display: block;
+      margin-top: 10px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .team-member:hover .github-btn {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>DreamSpace</h2>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="#">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="team-section">
+    <h1>Meet the Team</h1>
+    <div class="team-grid" id="team-grid">
+      <!-- Cards added via JavaScript -->
+    </div>
+  </section>
+
+  <script>
+    const members = [
+      {
+        file: 'mithul_c3.jpeg',
+        github: 'https://github.com/mithul-c3'
+      },
+      {
+        file: 'mouli__p.jpeg',
+        github: 'https://github.com/mouli7667'
+      },
+      {
+        file: 'naveen_srinivas.282.jpeg',
+        github: 'https://github.com/naveen282'
+      },
+      {
+        file: 'sunny_chirra.jpeg',
+        github: 'https://github.com/sunnychirra'
+      },
+      {
+        file: 'yuva1123.jpeg',
+        github: 'https://github.com/yuva1123'
+      }
+    ];
+
+    const grid = document.getElementById('team-grid');
+
+    members.forEach(({ file, github }) => {
+      const name = file.replace(/\.(jpeg|jpg|png|gif|webp)$/, '');
+      const card = document.createElement('div');
+      card.className = 'team-member';
+      card.innerHTML = `
+        <img src="member-images/${file}" alt="${name}" />
+        <h3>${name}</h3>
+        <a href="${github}" class="github-btn" target="_blank">Go to GitHub</a>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>

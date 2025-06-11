@@ -55,9 +55,8 @@
     <h1>DreamSpace</h1>
     <nav>
       <a href="#">Home</a>
-      <a href="#">Listings</a>
       <a href="#" id="about-link">About</a>
-      <a href="#">Contact</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </header>
   <button id="toggle-select-mode" onclick="toggleSelectMode()">Enter Select Mode</button>
@@ -66,7 +65,7 @@
     <div class="hero-text">
       <h2>Your Dream Home Awaits</h2>
       <p>Find perfect properties tailored for your lifestyle.</p>
-      <button onclick="alert('Explore listings coming soon!')">Explore Listings</button>
+      <button onclick="document.getElementById('room-dropdown').scrollIntoView({ behavior: 'smooth' })">Explore Listings</button>
     </div>
   </section>
 
@@ -78,7 +77,7 @@
 
   <section class="room-types">
     <h2>Select Room Type</h2>
-    <div class="dropdown-container">
+    <div class="dropdown-container" id="room-dropdown">
       <select id="room-selector" onchange="navigateToRoom(this.value)">
         <option value="">-- Choose a Room --</option>
         <option value="balcony">Balcony</option>
@@ -160,16 +159,28 @@
     </div>
   </footer>
 
-  <!-- About Modal -->
-  <div class="modal" id="about-modal">
-    <div class="modal-content">
-      <button class="close-btn" onclick="hideModal()">Close</button>
-      <h2>User Details</h2>
-      <p><strong>Name:</strong> <span id="user-name"></span></p>
-      <p><strong>Email:</strong> <span id="user-email"></span></p>
-      <p><strong>Password:</strong> <span id="user-pass"></span></p>
-    </div>
+<!-- About Modal -->
+<div class="modal" id="about-modal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="hideModal()">Close</button>
+    <h2>User Details</h2>
+    <p><strong>Name:</strong> <span id="user-name"></span></p>
+    <p><strong>Email:</strong> <span id="user-email"></span></p>
+    <p><strong>Password:</strong> <span id="user-pass"></span></p>
+
+    <!-- Logout Button -->
+    <button onclick="logoutUser()" style="
+      margin-top: 20px;
+      background-color: #333;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    ">Logout</button>
   </div>
+</div>
 
   <script src="script.js"></script>
   <script>
