@@ -62,7 +62,7 @@
     }
 
     .team-member:hover {
-      height: 280px;
+      height: 310px;
       transform: translateY(-5px);
     }
 
@@ -109,7 +109,7 @@
   </header>
 
   <section class="team-section">
-    <h1>Meet the Team</h1>
+    <h1>Meet my Team</h1>
     <div class="team-grid" id="team-grid">
       <!-- Cards added via JavaScript -->
     </div>
@@ -119,36 +119,42 @@
     const members = [
       {
         file: 'mithul_c3.jpeg',
-        github: 'https://github.com/mithul-c3'
+        portfolio: 'https://boyanapallymithulsai.github.io/My_Porfolio/',
+        github: 'https://github.com/boyanapallymithulsai'
       },
       {
         file: 'mouli__p.jpeg',
+        portfolio: 'https://mouli7666.github.io/mouli_portfolio/',
         github: 'https://github.com/wavexnani'
       },
       {
         file: 'naveen_srinivas.282.jpeg',
-        github: 'https://github.com/naveen282'
+        portfolio: 'https://naveen28204280.github.io/Portfoli_for_HTML/',
+        github: 'https://github.com/naveen28204280'
       },
       {
         file: 'sunny_chirra.jpeg',
-        github: 'https://github.com/sunnychirra'
+        portfolio: 'https://github.com/Ramrithik/portfolio',
+        github: 'https://github.com/Ramrithik'
       },
       {
         file: 'yuva1123.jpeg',
+        portfolio: 'https://yuva1123.github.io/Portofolio/',
         github: 'https://github.com/yuva1123'
       }
     ];
 
     const grid = document.getElementById('team-grid');
 
-    members.forEach(({ file, github }) => {
+    members.forEach(({ file, portfolio, github }) => {
       const name = file.replace(/\.(jpeg|jpg|png|gif|webp)$/, '');
       const card = document.createElement('div');
       card.className = 'team-member';
       card.innerHTML = `
         <img src="member-images/${file}" alt="${name}" />
         <h3>${name}</h3>
-        <a href="${github}" class="github-btn" target="_blank">Go to GitHub</a>
+        <a href="${portfolio}" class="github-btn" target="_blank">My Portfolio</a>
+        <a href="${github}" class="github-btn" target="_blank">My Github</a>
       `;
       grid.appendChild(card);
     });
