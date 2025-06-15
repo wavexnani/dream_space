@@ -110,7 +110,7 @@
 <body>
 
   <div class="container" id="auth-container">
-    <!-- Dynamic content will be injected -->
+    
   </div>
 
   <script>
@@ -148,7 +148,7 @@
         if (isLogin) {
           if (users[email] && users[email].password === password) {
             errorMsg.textContent = '';
-            // Login success: Redirect
+            
             localStorage.setItem('loggedInUser', email);
             window.location.href = 'home.html';
           } else {

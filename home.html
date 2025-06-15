@@ -101,7 +101,7 @@
 
 <div id="selected-cards-section" style="display: none; margin-top: 30px;">
   <h2>Your Selected Designs</h2>
-  <div id="selected-cards" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+  <div id="selected-cards" style="display: flex; flex-wrap:nowrap; gap: 10px;"></div>
   <h3 id="total-price" style="margin: 20px 0; font-size: 1.2rem;"></h3>
   <div style="text-align: right;">
     <button onclick="clearAllSelections()" style="
@@ -205,7 +205,7 @@
     function logoutUser() {
       localStorage.removeItem('loggedInUser');
       alert("You have been logged out.");
-      window.location.href = "index.html"; // Redirect to home page
+      window.location.href = "index.html"; 
     }
 
     function hideModal() {
